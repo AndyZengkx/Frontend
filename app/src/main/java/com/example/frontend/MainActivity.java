@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.frontend.entity.Result;
 import com.example.frontend.entity.User;
 import com.google.gson.Gson;
+import com.google.gson.internal.LinkedTreeMap;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -26,7 +27,7 @@ import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static Object user;
+    public static LinkedTreeMap<String, String> user;
 
 
     private Button mBtn;
@@ -95,7 +96,6 @@ public class MainActivity extends AppCompatActivity {
                                 Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
                                 startActivity(intent);
                             });
-                            user = result.getData();
                         } else {
                             mHandler.post(() -> {
                                 Toast.makeText(MainActivity.this, result.getErrorMsg(), Toast.LENGTH_SHORT).show();
