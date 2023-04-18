@@ -1,5 +1,6 @@
 package com.example.frontend;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,6 +11,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.frontend.entity.Result;
+import com.example.frontend.entity.User;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -24,8 +26,11 @@ import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static Object user;
+
 
     private Button mBtn;
+    private Button mBtnRegister;
     private EditText mEtUsername;
     private EditText mEtPassword;
     private RequestBody requestBody;
@@ -33,11 +38,13 @@ public class MainActivity extends AppCompatActivity {
 
     private Handler mHandler;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mBtn = findViewById(R.id.btn_login);
+        mBtnRegister = findViewById(R.id.btn_register_fw);
         mEtUsername = findViewById(R.id.et_name);
         mEtPassword = findViewById(R.id.et_password);
         mHandler = new Handler();
@@ -47,6 +54,12 @@ public class MainActivity extends AppCompatActivity {
             String password = mEtPassword.getText().toString().trim();
             login(name, password);
         });
+
+        mBtnRegister.setOnClickListener((view)->{
+            Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
+            startActivity(intent);
+        });
+
     }
 
     private void login(final String name, final String password) {
@@ -82,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
                                 Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
                                 startActivity(intent);
                             });
+                            user = result.getData();
                         } else {
                             mHandler.post(() -> {
                                 Toast.makeText(MainActivity.this, result.getErrorMsg(), Toast.LENGTH_SHORT).show();

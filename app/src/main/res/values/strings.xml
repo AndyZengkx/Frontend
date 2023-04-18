@@ -3,4 +3,7 @@
     <string name="password">password</string>
     <string name="name">name</string>
     <string name="log_in">log in</string>
+    <string name="user">user</string>
+    <string name="admin">admin</string>
+    <string name="register">register</string>
 </resources>
