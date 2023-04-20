@@ -15,7 +15,7 @@
 
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/text_view_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -30,7 +30,7 @@
         android:textSize="20sp" />
 
     <EditText
-        android:id="@+id/edit_text_username"
+        android:id="@+id/et_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/image_logo"
@@ -45,10 +45,10 @@
         android:textColorHint="@color/light_gray" />
 
     <EditText
-        android:id="@+id/edit_text_password"
+        android:id="@+id/et_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/edit_text_username"
+        android:layout_below="@id/et_name"
         android:layout_marginHorizontal="24dp"
         android:layout_marginTop="-1dp"
         android:background="@drawable/edit_text_bg"
@@ -61,14 +61,14 @@
         android:textColorHint="@color/light_gray" />
 
     <EditText
-        android:id="@+id/edit_text_phone"
+        android:id="@+id/et_phone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/edit_text_username"
+        android:layout_below="@id/et_password"
         android:layout_marginHorizontal="24dp"
-        android:layout_marginTop="55dp"
+        android:layout_marginTop="-1dp"
         android:background="@drawable/edit_text_bg"
-        android:drawableLeft="@drawable/ic_phone"
+        android:drawableLeft="@drawable/ic_lock"
         android:drawablePadding="16dp"
         android:hint="Phone"
         android:inputType="textPassword"
@@ -77,10 +77,10 @@
         android:textColorHint="@color/light_gray" />
 
     <Button
-        android:id="@+id/button_login"
+        android:id="@+id/btn_register"
         android:layout_width="142dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/edit_text_password"
+        android:layout_below="@id/et_password"
         android:layout_alignParentStart="true"
         android:layout_marginHorizontal="24dp"
         android:layout_marginStart="54dp"
@@ -90,10 +90,10 @@
         android:textColor="@color/white" />
 
     <Button
-        android:id="@+id/button_register"
+        android:id="@+id/btn_return"
         android:layout_width="140dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/edit_text_password"
+        android:layout_below="@id/et_password"
         android:layout_alignParentEnd="true"
         android:layout_marginHorizontal="24dp"
         android:layout_marginTop="132dp"
@@ -102,7 +102,32 @@
         android:text="return"
         android:textColor="@color/white" />
 
+    <RadioGroup
+        android:id="@+id/rdg_1"
+        android:layout_width="268dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/et_password"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="105dp"
+        android:layout_marginTop="75dp"
+        android:layout_marginEnd="105dp"
+        android:orientation="horizontal">
 
+        <RadioButton
+            android:id="@+id/rbtn_1"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Customer" />
 
+        <RadioButton
+            android:id="@+id/rbtn_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Admin" />
+
+    </RadioGroup>
 
 </RelativeLayout>

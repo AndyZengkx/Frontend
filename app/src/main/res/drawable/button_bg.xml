@@ -14,7 +14,6 @@
                 android:top="12dp"
                 android:right="16dp"
                 android:bottom="12dp" />
-            <solid android:color="@color/button_green"/>
 
             <corners android:radius="10dp"/>
         </shape>

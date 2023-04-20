@@ -13,7 +13,7 @@
            android:src="@drawable/logo1_new" />
 
        <EditText
-           android:id="@+id/edit_text_username"
+           android:id="@+id/et_name"
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
            android:layout_below="@id/image_logo"
@@ -28,10 +28,10 @@
            android:textColorHint="@color/light_gray" />
 
        <EditText
-           android:id="@+id/edit_text_password"
+           android:id="@+id/et_password"
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
-           android:layout_below="@id/edit_text_username"
+           android:layout_below="@id/et_name"
            android:layout_marginHorizontal="24dp"
            android:background="@drawable/edit_text_bg"
            android:drawableLeft="@drawable/ic_lock"
@@ -43,10 +43,10 @@
            android:textColorHint="@color/light_gray" />
 
        <Button
-           android:id="@+id/button_login"
+           android:id="@+id/btn_login"
            android:layout_width="142dp"
            android:layout_height="wrap_content"
-           android:layout_below="@id/edit_text_password"
+           android:layout_below="@id/et_password"
            android:layout_alignParentStart="true"
            android:layout_marginHorizontal="24dp"
            android:layout_marginStart="49dp"
@@ -56,10 +56,10 @@
            android:textColor="@color/white" />
 
        <Button
-           android:id="@+id/button_register"
+           android:id="@+id/btn_register_fw"
            android:layout_width="140dp"
            android:layout_height="wrap_content"
-           android:layout_below="@id/edit_text_password"
+           android:layout_below="@id/et_password"
            android:layout_alignParentEnd="true"
            android:layout_marginHorizontal="24dp"
            android:layout_marginTop="52dp"
