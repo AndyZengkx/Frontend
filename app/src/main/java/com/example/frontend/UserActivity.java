@@ -2,6 +2,7 @@ package com.example.frontend;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.frontend.entity.Result;
+import com.example.frontend.utils.MyActivityManager;
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
 
@@ -24,7 +26,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
-import java.util.concurrent.ForkJoinWorkerThread;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.FormBody;
@@ -36,21 +37,31 @@ import okhttp3.Response;
 public class UserActivity extends AppCompatActivity {
 
     public static LinkedTreeMap<String, String> user;
+    public static Context context;
 
+    public static View view;
+    public static Activity activity;
+
+    public void showToast(String message) {
+        Toast.makeText(UserActivity.this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    public static ArrayList appointmentData;
 
     private Button mBtn;
     private EditText mEtDateTime;
     private EditText mEtInsName;
     private RequestBody requestBody;
-    private OkHttpClient okHttpClient;
+    private static OkHttpClient okHttpClient;
 
-    private Handler mHandler;
+    public static Handler mHandler = new Handler();
 
     private ListView mListView;
 
 
-    private ListView listView;
-    private ArrayList<Model> dataList;
+    private static ListView listView;
+    private static ArrayList<Model> dataList;
+
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -58,11 +69,15 @@ public class UserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
 
+        context = getApplicationContext();
+        view = this.getWindow().getDecorView();
+        activity = MyActivityManager.getInstance().getCurrentActivity();
         mBtn = findViewById(R.id.btn_usersearch);
         mEtDateTime = findViewById(R.id.mEtTime);
         mEtInsName = findViewById(R.id.mEtStoreSearch);
         mListView = findViewById(R.id.listview);
-        mHandler = new Handler();
+        listView = (ListView) findViewById(R.id.listview);
+//        mHandler = new Handler();
 
         mBtn.setOnClickListener((view) -> {
             String datetime = String.valueOf(mEtDateTime.getText());
@@ -82,7 +97,7 @@ public class UserActivity extends AppCompatActivity {
 
         dataList = new ArrayList<Model>();
 
-        listView = (ListView)findViewById(R.id.listview);
+        listView = (ListView) findViewById(R.id.listview);
         CustomListAdapter cadapter = new CustomListAdapter(UserActivity.this, dataList);
 
         String uid = Objects.requireNonNull(String.valueOf(MainActivity.user.get("id")));
@@ -90,7 +105,7 @@ public class UserActivity extends AppCompatActivity {
         getAppointments(uid);
     }
 
-    private void getAppointments(String id){
+    public static void getAppointments(String id) {
         okHttpClient = new OkHttpClient.Builder().connectTimeout(3000, TimeUnit.SECONDS).callTimeout(3000, TimeUnit.SECONDS).build();
         Thread thread = new Thread() {
             @Override
@@ -115,14 +130,20 @@ public class UserActivity extends AppCompatActivity {
                                 Intent intent = new Intent(RegisterActivity.this, AdminActivity.class);
                                 startActivity(intent);
                                  */
+                                dataList.clear();
                                 System.out.println(result.getData());
                                 String[] data = new String[result.getTotal().intValue()];
                                 Object object = result.getData();
-                                for(int i = 0; i < result.getTotal().intValue(); i++){
+                                appointmentData = (ArrayList) object;
+                                for (int i = 0; i < result.getTotal().intValue(); i++) {
                                     StringBuilder builder = new StringBuilder();
                                     builder.append(((LinkedTreeMap) ((ArrayList) result.getData()).get(i)).get("ins_name"));
                                     builder.append("\t");
                                     builder.append(((LinkedTreeMap) ((ArrayList) result.getData()).get(i)).get("timeStamp"));
+                                    builder.append("\n");
+                                    if ((Double) ((LinkedTreeMap) ((ArrayList) result.getData()).get(i)).get("checkin") > 0)
+                                        builder.append("checked in");
+                                    else builder.append("waiting checked");
                                     data[i] = builder.toString();
 
                                     Model m = new Model(data[i]);
@@ -132,20 +153,18 @@ public class UserActivity extends AppCompatActivity {
 
                                 // 创建一个ArrayAdapter作为ListView的适配器
                                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-                                        UserActivity.this,
+                                        UserActivity.context,
                                         R.layout.list_item,
                                         R.id.tv_one,
                                         data
                                 );
                                 // 将适配器设置给ListView
-
-                                listView = (ListView)findViewById(R.id.listview);
-                                CustomListAdapter cadapter = new CustomListAdapter(UserActivity.this, dataList);
+                                CustomListAdapter cadapter = new CustomListAdapter(UserActivity.context, dataList);
                                 listView.setAdapter(cadapter);
                             });
                         } else {
                             mHandler.post(() -> {
-                                Toast.makeText(UserActivity.this, result.getErrorMsg(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(UserActivity.context, result.getErrorMsg(), Toast.LENGTH_SHORT).show();
                             });
                         }
                     } else {
@@ -194,7 +213,7 @@ public class UserActivity extends AppCompatActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                formBody.add("rid",rid);
+                formBody.add("rid", rid);
                 formBody.add("uid", id);
                 formBody.add("timeStamp", datetime);
                 requestBody = formBody.build();
@@ -211,10 +230,12 @@ public class UserActivity extends AppCompatActivity {
                             mHandler.post(() -> {
                                 Toast.makeText(UserActivity.this, result.getErrorMsg(), Toast.LENGTH_SHORT).show();
                             });
-                        }
-                        else{
+                        } else {
                             mHandler.post(() -> {
                                 Toast.makeText(UserActivity.this, "create successfully", Toast.LENGTH_SHORT).show();
+                                String uid = Objects.requireNonNull(String.valueOf(MainActivity.user.get("id")));
+                                uid = uid.substring(0, uid.length() - 2);
+                                getAppointments(uid);
                             });
                         }
                     } else {
@@ -224,6 +245,7 @@ public class UserActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
-        }; thread.start();
+        };
+        thread.start();
     }
 }
