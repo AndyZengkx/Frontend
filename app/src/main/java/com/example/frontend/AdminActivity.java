@@ -11,7 +11,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.frontend.entity.Result;
-import com.example.frontend.entity.User;
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
 
@@ -26,15 +25,13 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class MainActivity extends AppCompatActivity {
+public class AdminActivity extends AppCompatActivity {
 
     public static LinkedTreeMap<String, String> user;
 
 
     private Button mBtn;
-    private Button mBtnRegister;
-    private EditText mEtUsername;
-    private EditText mEtPassword;
+    private EditText mEtStoreSearch;
     private RequestBody requestBody;
     private OkHttpClient okHttpClient;
 
@@ -44,44 +41,41 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        mBtn = findViewById(R.id.btn_login);
-        mBtnRegister = findViewById(R.id.btn_register_fw);
-        mEtUsername = findViewById(R.id.et_name);
-        mEtPassword = findViewById(R.id.et_password);
+        setContentView(R.layout.activity_admin);
+        mBtn = findViewById(R.id.btn_adminsearch);
         mHandler = new Handler();
 
+        //admin_search(2);
+        //System.out.println(((LinkedTreeMap) result.getData()).get("role").equals("admin"));
+
         mBtn.setOnClickListener((view) -> {
-            String name = mEtUsername.getText().toString().trim();
-            String password = mEtPassword.getText().toString().trim();
-            login(name, password);
+
+            admin_search(2);
         });
 
-        mBtnRegister.setOnClickListener((view)->{
-            Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
-            startActivity(intent);
-        });
+
 
     }
 
-    private void login(final String name, final String password) {
-        FormBody.Builder formBody = new FormBody.Builder();
-        formBody.add("name", name);
-        formBody.add("password", password);
+    private void admin_search(int uid) {
+        System.out.println("1234");
 
-        okHttpClient = new OkHttpClient.Builder()
-                .connectTimeout(3000, TimeUnit.SECONDS)
-                .callTimeout(3000, TimeUnit.SECONDS)
+        FormBody.Builder formBody = new FormBody.Builder();
+
+        OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
-        requestBody = formBody.build();
+        MediaType mediaType = MediaType.parse("text/plain");
+        RequestBody body = RequestBody.create(mediaType, "");
+
         //Okhttp3同步请求 开启线程
         Thread thread = new Thread() {
             @Override
             public void run() {
                 //设置请求的地址
                 Request request = new Request.Builder()
-                        .url("http://43.138.218.156:8080/login")
-                        .post(requestBody).build();
+                        .url("http://43.138.218.156:8080/get_institution?uid="+Integer.toString(2))
+                        .method("GET", body)
+                        .build();
                 Response response = null;
                 try {
                     //同步请求
@@ -90,21 +84,20 @@ public class MainActivity extends AppCompatActivity {
                         String res = Objects.requireNonNull(response.body()).string();
                         Gson gson = new Gson();
                         Result result = gson.fromJson(res, Result.class);
+
                         System.out.println(result);
+
                         if (result.getSuccess()) {
                             mHandler.post(() -> {
-                                Toast.makeText(MainActivity.this, "log in successfully", Toast.LENGTH_SHORT).show();
-                                if (((LinkedTreeMap) result.getData()).get("role").equals("admin")){
-                                    Intent intent = new Intent(MainActivity.this, AdminActivity.class);
-                                    startActivity(intent);
-                                } else if (((LinkedTreeMap) result.getData()).get("role").toString() == "user"){
-                                    Intent intent = new Intent(MainActivity.this, UserActivity.class);
-                                    startActivity(intent);
-                                }
+                                /*
+                                Toast.makeText(RegisterActivity.this, "register successfully", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(RegisterActivity.this, AdminActivity.class);
+                                startActivity(intent);
+                                 */
                             });
                         } else {
                             mHandler.post(() -> {
-                                Toast.makeText(MainActivity.this, result.getErrorMsg(), Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(RegisterActivity.this, result.getErrorMsg(), Toast.LENGTH_SHORT).show();
                             });
                         }
                     } else {
@@ -117,5 +110,6 @@ public class MainActivity extends AppCompatActivity {
         };
         thread.start();
     }
+
 
 }

@@ -1,0 +1,37 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background">
+
+
+    <EditText
+        android:id="@+id/mEtStoreSearch"
+        android:layout_width="238dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/edit_text_bg"
+        android:drawablePadding="16dp"
+        android:hint="StoreName"
+        android:drawableLeft="@drawable/ic_search"
+        android:imeOptions="actionSearch"
+        android:padding="16dp"
+        android:singleLine="true"
+        android:textColor="@color/dark_gray"
+        android:textColorHint="@color/light_gray" />
+
+    <Button
+        android:id="@+id/btn_adminsearch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginStart="294dp"
+        android:layout_marginTop="52dp"
+
+        android:background="@drawable/button_bg"
+        android:text="Search"
+        android:textColor="@color/white" />
+
+</RelativeLayout>
