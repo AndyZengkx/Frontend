@@ -48,6 +48,10 @@ public class UserActivity extends AppCompatActivity {
 
     private ListView mListView;
 
+
+    private ListView listView;
+    private ArrayList<Model> dataList;
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +79,11 @@ public class UserActivity extends AppCompatActivity {
         final LayoutInflater inflater = LayoutInflater.from(this);
         View headView = inflater.inflate(R.layout.view_header, null, false);
         mListView.addHeaderView(headView);
+
+        dataList = new ArrayList<Model>();
+
+        listView = (ListView)findViewById(R.id.listview);
+        CustomListAdapter cadapter = new CustomListAdapter(UserActivity.this, dataList);
 
         String uid = Objects.requireNonNull(String.valueOf(MainActivity.user.get("id")));
         uid = uid.substring(0, uid.length() - 2);
@@ -115,7 +124,12 @@ public class UserActivity extends AppCompatActivity {
                                     builder.append("\t");
                                     builder.append(((LinkedTreeMap) ((ArrayList) result.getData()).get(i)).get("timeStamp"));
                                     data[i] = builder.toString();
+
+                                    Model m = new Model(data[i]);
+                                    dataList.add(m);
                                 }
+
+
                                 // 创建一个ArrayAdapter作为ListView的适配器
                                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                                         UserActivity.this,
@@ -125,7 +139,9 @@ public class UserActivity extends AppCompatActivity {
                                 );
                                 // 将适配器设置给ListView
 
-                                mListView.setAdapter(adapter);
+                                listView = (ListView)findViewById(R.id.listview);
+                                CustomListAdapter cadapter = new CustomListAdapter(UserActivity.this, dataList);
+                                listView.setAdapter(cadapter);
                             });
                         } else {
                             mHandler.post(() -> {
