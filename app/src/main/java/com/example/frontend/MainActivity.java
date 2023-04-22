@@ -11,7 +11,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.frontend.entity.Result;
-import com.example.frontend.entity.User;
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
 
@@ -20,7 +19,6 @@ import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.FormBody;
-import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -28,7 +26,7 @@ import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static LinkedTreeMap<String, String> user;
+    public static LinkedTreeMap<String,String> user;
 
 
     private Button mBtn;
@@ -57,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
             login(name, password);
         });
 
-        mBtnRegister.setOnClickListener((view)->{
+        mBtnRegister.setOnClickListener((view) -> {
             Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
             startActivity(intent);
         });
@@ -93,11 +91,12 @@ public class MainActivity extends AppCompatActivity {
                         System.out.println(result);
                         if (result.getSuccess()) {
                             mHandler.post(() -> {
+                                user = (LinkedTreeMap) result.getData();
                                 Toast.makeText(MainActivity.this, "log in successfully", Toast.LENGTH_SHORT).show();
-                                if (((LinkedTreeMap) result.getData()).get("role").equals("admin")){
+                                if (((LinkedTreeMap) result.getData()).get("role").equals("admin")) {
                                     Intent intent = new Intent(MainActivity.this, AdminActivity.class);
                                     startActivity(intent);
-                                } else if (((LinkedTreeMap) result.getData()).get("role").toString() == "user"){
+                                } else if (((LinkedTreeMap) result.getData()).get("role").toString().equals("user")) {
                                     Intent intent = new Intent(MainActivity.this, UserActivity.class);
                                     startActivity(intent);
                                 }

@@ -1,4 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background">
@@ -21,6 +22,24 @@
         android:textColor="@color/dark_gray"
         android:textColorHint="@color/light_gray" />
 
+    <EditText
+        android:id="@+id/mEtTime"
+        android:layout_width="238dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginRight="20dp"
+        android:layout_below="@+id/mEtStoreSearch"
+        android:background="@drawable/edit_text_bg"
+        android:drawablePadding="16dp"
+        android:hint="Time"
+        android:drawableLeft="@drawable/ic_time"
+        android:imeOptions="actionSearch"
+        android:padding="16dp"
+        android:singleLine="true"
+        android:textColor="@color/dark_gray"
+        android:textColorHint="@color/light_gray" />
+
     <Button
         android:id="@+id/btn_usersearch"
         android:layout_width="wrap_content"
@@ -29,9 +48,17 @@
         android:layout_marginHorizontal="24dp"
         android:layout_marginStart="294dp"
         android:layout_marginTop="52dp"
-
         android:background="@drawable/button_bg"
-        android:text="Search"
+        android:text="Book"
         android:textColor="@color/white" />
+
+    <ListView
+        android:id="@+id/listview"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="327dp"
+        android:layout_marginBottom="50dp" />
+
 
 </RelativeLayout>
