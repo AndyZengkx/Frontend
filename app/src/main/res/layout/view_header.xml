@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:textSize="18sp"
-        android:text="表头"
+        android:text="Booked Stores"
         android:gravity="center"
         android:background="#43BBEB"
         android:textColor="#FFFFFF"/>
