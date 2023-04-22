@@ -1,12 +1,10 @@
 package com.example.frontend;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,7 +17,6 @@ import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.FormBody;
-import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -54,18 +51,16 @@ public class AdminActivity extends AppCompatActivity {
         });
 
 
-
     }
 
     private void admin_search(int uid) {
-        System.out.println("1234");
-
         FormBody.Builder formBody = new FormBody.Builder();
 
-        OkHttpClient client = new OkHttpClient().newBuilder()
+        okHttpClient = new OkHttpClient.Builder()
+                .connectTimeout(3000, TimeUnit.SECONDS)
+                .callTimeout(3000, TimeUnit.SECONDS)
                 .build();
-        MediaType mediaType = MediaType.parse("text/plain");
-        RequestBody body = RequestBody.create(mediaType, "");
+        requestBody = formBody.build();
 
         //Okhttp3同步请求 开启线程
         Thread thread = new Thread() {
@@ -73,8 +68,8 @@ public class AdminActivity extends AppCompatActivity {
             public void run() {
                 //设置请求的地址
                 Request request = new Request.Builder()
-                        .url("http://43.138.218.156:8080/get_institution?uid="+Integer.toString(2))
-                        .method("GET", body)
+                        .url("http://43.138.218.156:8080/get_institution?uid=" + Integer.toString(uid))
+                        .method("GET", requestBody)
                         .build();
                 Response response = null;
                 try {
