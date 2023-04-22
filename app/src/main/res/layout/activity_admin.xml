@@ -4,34 +4,95 @@
     android:background="@drawable/background">
 
 
-    <EditText
-        android:id="@+id/mEtStoreSearch"
-        android:layout_width="238dp"
+    <TextView
+        android:id="@+id/text_view_1"
+        android:layout_width="341dp"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_gravity="center"
+        android:layout_marginStart="34dp"
+        android:layout_marginTop="51dp"
+        android:layout_marginEnd="36dp"
+        android:gravity="center"
+        android:text="新建店铺，请输入店铺名称、地点、可预约人数以及店铺种类"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/et_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_view_1"
         android:layout_marginHorizontal="24dp"
         android:layout_marginTop="48dp"
-        android:layout_marginRight="20dp"
         android:background="@drawable/edit_text_bg"
+        android:drawableLeft="@drawable/ic_store"
         android:drawablePadding="16dp"
-        android:hint="StoreName"
-        android:drawableLeft="@drawable/ic_search"
-        android:imeOptions="actionSearch"
+        android:hint="Storename"
         android:padding="16dp"
-        android:singleLine="true"
+        android:textColor="@color/dark_gray"
+        android:textColorHint="@color/light_gray" />
+
+    <EditText
+        android:id="@+id/et_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/et_name"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="1dp"
+        android:background="@drawable/edit_text_bg"
+        android:drawableLeft="@drawable/ic_location"
+        android:drawablePadding="16dp"
+        android:hint="Location"
+        android:inputType="textPassword"
+        android:padding="16dp"
+        android:textColor="@color/dark_gray"
+        android:textColorHint="@color/light_gray" />
+
+    <EditText
+        android:id="@+id/et_limit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/et_location"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="1dp"
+        android:background="@drawable/edit_text_bg"
+        android:drawableLeft="@drawable/ic_limit"
+        android:drawablePadding="16dp"
+        android:hint="People Limitation"
+        android:inputType="textPassword"
+        android:padding="16dp"
+        android:textColor="@color/dark_gray"
+        android:textColorHint="@color/light_gray" />
+
+    <EditText
+        android:id="@+id/et_service"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/et_name"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="113dp"
+        android:background="@drawable/edit_text_bg"
+        android:drawableLeft="@drawable/ic_category"
+        android:drawablePadding="16dp"
+        android:hint="Service"
+        android:inputType="textPassword"
+        android:padding="16dp"
         android:textColor="@color/dark_gray"
         android:textColorHint="@color/light_gray" />
 
     <Button
-        android:id="@+id/btn_adminsearch"
+        android:id="@+id/btn_adminnew"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/et_name"
         android:layout_alignParentStart="true"
         android:layout_marginHorizontal="24dp"
-        android:layout_marginStart="294dp"
-        android:layout_marginTop="52dp"
-
+        android:layout_marginStart="162dp"
+        android:layout_marginTop="205dp"
         android:background="@drawable/button_bg"
-        android:text="Search"
+        android:text="New"
         android:textColor="@color/white" />
 
 </RelativeLayout>
