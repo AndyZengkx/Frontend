@@ -5,6 +5,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -58,6 +60,11 @@ public class AdminActivity extends AppCompatActivity {
         mHandler = new Handler();
         // 获取ListView的引用
         mListView = findViewById(R.id.listview);
+
+        final LayoutInflater inflater = LayoutInflater.from(this);
+        View headView = inflater.inflate(R.layout.view_admin_header, null, false);
+        mListView.addHeaderView(headView);
+
         // 定义一个数组作为ListView的数据源
 //        String[] data = new String[]{"Item 1", "Item 2", "Item 3", "Item 4", "Item 5"};
 //        // 创建一个ArrayAdapter作为ListView的适配器
@@ -192,6 +199,7 @@ public class AdminActivity extends AppCompatActivity {
                                         data
                                 );
                                 // 将适配器设置给ListView
+
                                 mListView.setAdapter(adapter);
                             });
                         } else {

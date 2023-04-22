@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
                                 if (((LinkedTreeMap) result.getData()).get("role").equals("admin")) {
                                     Intent intent = new Intent(MainActivity.this, AdminActivity.class);
                                     startActivity(intent);
-                                } else if (((LinkedTreeMap) result.getData()).get("role").toString().equals("user")) {
+                                } else if (((LinkedTreeMap) result.getData()).get("role").toString().equals("Customer")) {
                                     Intent intent = new Intent(MainActivity.this, UserActivity.class);
                                     startActivity(intent);
                                 }

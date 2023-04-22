@@ -32,15 +32,19 @@
         android:layout_below="@+id/mEtStoreSearch"
         android:background="@drawable/edit_text_bg"
         android:drawablePadding="16dp"
-        android:hint="YY/MM/DD/24Hour"
+
+        android:hint="YY/MM/DD/Hour"
+
         android:drawableLeft="@drawable/ic_time"
         android:imeOptions="actionSearch"
         android:padding="16dp"
         android:singleLine="true"
         android:textColor="@color/dark_gray"
         android:textColorHint="@color/light_gray"
+
         android:inputType="datetime"
         />
+
 
     <Button
         android:id="@+id/btn_usersearch"
