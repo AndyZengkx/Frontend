@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -67,6 +68,23 @@ public class UserActivity extends AppCompatActivity {
             id = id.substring(0, id.length() - 2);
             createAppointment(name, id, datetime);
         });
+
+
+        mListView = findViewById(R.id.listview);
+        final LayoutInflater inflater = LayoutInflater.from(this);
+        View headView = inflater.inflate(R.layout.view_header, null, false);
+        mListView.addHeaderView(headView);
+
+        String[] data = new String[]{"Item 1", "Item 2", "Item 3", "Item 4", "Item 5"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                UserActivity.this,
+                R.layout.list_item,
+                R.id.tv_one,
+                data
+        );
+        // 将适配器设置给ListView
+
+        mListView.setAdapter(adapter);
     }
 
     private void createAppointment(String name, String id, String datetime) {
