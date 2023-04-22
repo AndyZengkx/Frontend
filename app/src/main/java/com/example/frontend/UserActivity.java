@@ -1,11 +1,13 @@
 package com.example.frontend;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -19,6 +21,7 @@ import com.google.gson.internal.LinkedTreeMap;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.concurrent.ForkJoinWorkerThread;
@@ -54,6 +57,7 @@ public class UserActivity extends AppCompatActivity {
         mBtn = findViewById(R.id.btn_usersearch);
         mEtDateTime = findViewById(R.id.mEtTime);
         mEtInsName = findViewById(R.id.mEtStoreSearch);
+        mListView = findViewById(R.id.listview);
         mHandler = new Handler();
 
         mBtn.setOnClickListener((view) -> {
@@ -67,6 +71,71 @@ public class UserActivity extends AppCompatActivity {
             id = id.substring(0, id.length() - 2);
             createAppointment(name, id, datetime);
         });
+        String uid = Objects.requireNonNull(String.valueOf(MainActivity.user.get("id")));
+        uid = uid.substring(0, uid.length() - 2);
+        getAppointments(uid);
+    }
+
+    private void getAppointments(String id){
+        okHttpClient = new OkHttpClient.Builder().connectTimeout(3000, TimeUnit.SECONDS).callTimeout(3000, TimeUnit.SECONDS).build();
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                //设置请求的地址
+                Request request = new Request.Builder().url("http://43.138.218.156:8080/get_app_by_uid?uid=" + id).get().build();
+                Response response = null;
+                try {
+                    //同步请求
+                    response = okHttpClient.newCall(request).execute();
+                    if (response.isSuccessful()) {
+                        String res = Objects.requireNonNull(response.body()).string();
+                        Gson gson = new Gson();
+                        Result result = gson.fromJson(res, Result.class);
+
+                        System.out.println(result);
+
+                        if (result.getSuccess()) {
+                            mHandler.post(() -> {
+                                /*
+                                Toast.makeText(RegisterActivity.this, "register successfully", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(RegisterActivity.this, AdminActivity.class);
+                                startActivity(intent);
+                                 */
+                                System.out.println(result.getData());
+                                String[] data = new String[result.getTotal().intValue()];
+                                Object object = result.getData();
+                                for(int i = 0; i < result.getTotal().intValue(); i++){
+                                    StringBuilder builder = new StringBuilder();
+                                    builder.append(((LinkedTreeMap) ((ArrayList) result.getData()).get(i)).get("ins_name"));
+                                    builder.append("\t");
+                                    builder.append(((LinkedTreeMap) ((ArrayList) result.getData()).get(i)).get("timeStamp"));
+                                    data[i] = builder.toString();
+                                }
+                                // 创建一个ArrayAdapter作为ListView的适配器
+                                ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                                        UserActivity.this,
+                                        R.layout.list_item,
+                                        R.id.tv_one,
+                                        data
+                                );
+                                // 将适配器设置给ListView
+
+                                mListView.setAdapter(adapter);
+                            });
+                        } else {
+                            mHandler.post(() -> {
+                                Toast.makeText(UserActivity.this, result.getErrorMsg(), Toast.LENGTH_SHORT).show();
+                            });
+                        }
+                    } else {
+                        System.out.println("服务器连接失败");
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        thread.start();
     }
 
     private void createAppointment(String name, String id, String datetime) {
