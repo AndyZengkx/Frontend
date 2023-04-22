@@ -5,8 +5,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +18,7 @@ import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
@@ -39,6 +42,8 @@ public class AdminActivity extends AppCompatActivity {
     private EditText mEtLocaton;
     private EditText mEtLimit;
     private EditText mEtService;
+
+    private ListView mListView;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +56,22 @@ public class AdminActivity extends AppCompatActivity {
         mEtLimit = findViewById(R.id.et_limit);
         mEtService = findViewById(R.id.et_service);
         mHandler = new Handler();
+        // 获取ListView的引用
+        mListView = findViewById(R.id.listview);
+        // 定义一个数组作为ListView的数据源
+//        String[] data = new String[]{"Item 1", "Item 2", "Item 3", "Item 4", "Item 5"};
+//        // 创建一个ArrayAdapter作为ListView的适配器
+//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+//                this,
+//                android.R.layout.simple_list_item_1,
+//                android.R.id.text1,
+//                data
+//        );
+//        // 将适配器设置给ListView
+//        mListView.setAdapter(adapter);
+        String id = Objects.requireNonNull(String.valueOf(MainActivity.user.get("id")));
+        id = id.substring(0,id.length()-2);
+        admin_search(Integer.parseInt(id));
         mBtnAdminNew.setOnClickListener((view)->{
             String location = String.valueOf(mEtLocaton.getText());
             String name = String.valueOf(mEtName.getText());
@@ -63,6 +84,7 @@ public class AdminActivity extends AppCompatActivity {
 //            admin_search(Integer.parseInt(Objects.requireNonNull(MainActivity.user.get("uid"))));
 //        });
     }
+
 
     private void createInstitution(String phone, String location, String name, int limit, String service) {
         FormBody.Builder formBody = new FormBody.Builder();
@@ -118,17 +140,17 @@ public class AdminActivity extends AppCompatActivity {
     }
 
     private void admin_search(int uid) {
-        FormBody.Builder formBody = new FormBody.Builder();
 
         okHttpClient = new OkHttpClient.Builder().connectTimeout(3000, TimeUnit.SECONDS).callTimeout(3000, TimeUnit.SECONDS).build();
-        requestBody = formBody.build();
 
         //Okhttp3同步请求 开启线程
         Thread thread = new Thread() {
             @Override
             public void run() {
                 //设置请求的地址
-                Request request = new Request.Builder().url("http://43.138.218.156:8080/get_institution?uid=" + Integer.toString(uid)).method("GET", requestBody).build();
+                String id = Objects.requireNonNull(String.valueOf(MainActivity.user.get("id")));
+                id = id.substring(0,id.length()-2);
+                Request request = new Request.Builder().url("http://43.138.218.156:8080/get_institution?uid=" + Integer.toString(uid)).method("GET", null).build();
                 Response response = null;
                 try {
                     //同步请求
@@ -147,6 +169,30 @@ public class AdminActivity extends AppCompatActivity {
                                 Intent intent = new Intent(RegisterActivity.this, AdminActivity.class);
                                 startActivity(intent);
                                  */
+                                System.out.println(result.getData());
+                                String[] data = new String[result.getTotal().intValue()+1];
+                                Object object = result.getData();
+                                data[0] = "name\tlocation\tphone\tservice";
+                                for(int i = 0; i < result.getTotal().intValue(); i++){
+                                    StringBuilder builder = new StringBuilder();
+                                    builder.append(((LinkedTreeMap) ((ArrayList) result.getData()).get(i)).get("name"));
+                                    builder.append("\t");
+                                    builder.append(((LinkedTreeMap) ((ArrayList) result.getData()).get(i)).get("location"));
+                                    builder.append("\t");
+                                    builder.append(((LinkedTreeMap) ((ArrayList) result.getData()).get(i)).get("phone"));
+                                    builder.append("\t");
+                                    builder.append(((LinkedTreeMap) ((ArrayList) result.getData()).get(i)).get("service"));
+                                    data[i+1] = builder.toString();
+                                }
+                                // 创建一个ArrayAdapter作为ListView的适配器
+                                ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                                        AdminActivity.this,
+                                        android.R.layout.simple_list_item_1,
+                                        android.R.id.text1,
+                                        data
+                                );
+                                // 将适配器设置给ListView
+                                mListView.setAdapter(adapter);
                             });
                         } else {
                             mHandler.post(() -> {
