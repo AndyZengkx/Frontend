@@ -41,7 +41,6 @@ public class UserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin);
 
-        mBtn = findViewById(R.id.btn_adminsearch);
 
         mHandler = new Handler();
 

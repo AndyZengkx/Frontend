@@ -1,4 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background">
@@ -29,6 +30,7 @@
         android:background="@drawable/edit_text_bg"
         android:drawableLeft="@drawable/ic_store"
         android:drawablePadding="16dp"
+        android:inputType="text"
         android:hint="Storename"
         android:padding="16dp"
         android:textColor="@color/dark_gray"
@@ -45,7 +47,7 @@
         android:drawableLeft="@drawable/ic_location"
         android:drawablePadding="16dp"
         android:hint="Location"
-        android:inputType="textPassword"
+        android:inputType="text"
         android:padding="16dp"
         android:textColor="@color/dark_gray"
         android:textColorHint="@color/light_gray" />
@@ -61,7 +63,7 @@
         android:drawableLeft="@drawable/ic_limit"
         android:drawablePadding="16dp"
         android:hint="People Limitation"
-        android:inputType="textPassword"
+        android:inputType="number"
         android:padding="16dp"
         android:textColor="@color/dark_gray"
         android:textColorHint="@color/light_gray" />
@@ -70,14 +72,14 @@
         android:id="@+id/et_service"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/et_name"
+        android:layout_below="@id/et_limit"
         android:layout_marginHorizontal="24dp"
-        android:layout_marginTop="113dp"
+        android:layout_marginTop="1dp"
         android:background="@drawable/edit_text_bg"
         android:drawableLeft="@drawable/ic_category"
         android:drawablePadding="16dp"
         android:hint="Service"
-        android:inputType="textPassword"
+        android:inputType="none|text"
         android:padding="16dp"
         android:textColor="@color/dark_gray"
         android:textColorHint="@color/light_gray" />
@@ -86,13 +88,25 @@
         android:id="@+id/btn_adminnew"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/et_name"
+        android:layout_below="@+id/et_service"
         android:layout_alignParentStart="true"
         android:layout_marginHorizontal="24dp"
-        android:layout_marginStart="162dp"
-        android:layout_marginTop="205dp"
+        android:layout_marginStart="164dp"
+        android:layout_marginTop="32dp"
         android:background="@drawable/button_bg"
         android:text="New"
         android:textColor="@color/white" />
+
+
+    <ListView
+
+        android:id="@+id/listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="500dp"
+        android:layout_marginBottom="50dp"
+        tools:itemCount="3" />
+
 
 </RelativeLayout>

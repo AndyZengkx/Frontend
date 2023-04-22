@@ -4,8 +4,10 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -38,22 +40,30 @@ public class AdminActivity extends AppCompatActivity {
     private Handler mHandler;
 
     @SuppressLint("MissingInflatedId")
+
+    ListView testlist;
+    String [] test_arr = {"肖申克的救赎","阿甘正传","明天会更好","速度与激情","建军大业","你好李焕英"};
+
+    private ListView mListView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin);
-        mBtn = findViewById(R.id.btn_adminsearch);
-        mHandler = new Handler();
 
-        //admin_search(2);
-        //System.out.println(((LinkedTreeMap) result.getData()).get("role").equals("admin"));
-
-        mBtn.setOnClickListener((view) -> {
-
-            admin_search(2);
-        });
-
-
+        // 获取ListView的引用
+        mListView = findViewById(R.id.listview);
+        // 定义一个数组作为ListView的数据源
+        String[] data = new String[]{{"Item 1", "Item 2", "Item 3", "Item 4", "Item 5"}};
+        // 创建一个ArrayAdapter作为ListView的适配器
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                this,
+                android.R.layout.simple_list_item_1,
+                android.R.id.text1,
+                data
+        );
+        // 将适配器设置给ListView
+        mListView.setAdapter(adapter);
 
     }
 
