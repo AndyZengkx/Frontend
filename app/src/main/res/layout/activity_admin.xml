@@ -7,17 +7,17 @@
 
     <TextView
         android:id="@+id/text_view_1"
-        android:layout_width="341dp"
+        android:layout_width="377dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_gravity="center"
-        android:layout_marginStart="34dp"
-        android:layout_marginTop="51dp"
-        android:layout_marginEnd="36dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="52dp"
+        android:layout_marginEnd="16dp"
         android:gravity="center"
-        android:text="新建店铺，请输入店铺名称、地点、可预约人数以及店铺种类"
+        android:text="Create your store! Just enter the name, location, capacity, and type of service."
         android:textSize="20sp" />
 
     <EditText
