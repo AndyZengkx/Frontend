@@ -130,6 +130,9 @@ public class AdminActivity extends AppCompatActivity {
                             mHandler.post(() -> {
                                 Toast.makeText(AdminActivity.this, "create successfully!", Toast.LENGTH_SHORT).show();
                             });
+                            String id = Objects.requireNonNull(String.valueOf(MainActivity.user.get("id")));
+                            id = id.substring(0,id.length()-2);
+                            admin_search(Integer.parseInt(id));
                         } else {
                             mHandler.post(() -> {
                                 Toast.makeText(AdminActivity.this, result.getErrorMsg(), Toast.LENGTH_SHORT).show();
